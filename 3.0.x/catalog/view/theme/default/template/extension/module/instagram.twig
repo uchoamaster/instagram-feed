@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="container-fluid module-instagram">
+        {% if instagrams %}		
+            <h4>{{ entry_instagram }}</h4>
+            <div class="instagram" id="instagram">
+
+                {% for instagram in instagrams %}
+                    <div class="item {{ hover_effect }}">
+                        <a href="{{ instagram.href }}" target="_blank" data-like="{{ instagram.likes }}">
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                            <img src="{{ instagram.img }}" alt="{{ instagram.text }}"> 
+                        </a> 
+                    </div> 
+                {% endfor %}
+                
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.module-instagram .slick-prev:before, 
+.module-instagram .slick-next:before{
+    color: {{ color }};
+}
+/**/
+.module-instagram h4{
+    text-align: {{ text_align }};
+}
+.instagram .item .fa:before{
+    color:{{ heart_color }}
+}
+.instagram .item a:before{
+    color: {{ heart_text_color }} !important;
+}
+{% if center_mode %}
+.slick-slide{
+    opacity: .2;
+    transition: opacity .3s linear 0s; 
+}
+.slick-slide.slick-active.slick-center{
+    opacity: 1;
+}
+{% endif %}
+</style>
+
+
+
+{% if instagrams %}
+    <script>
+    $('#instagram').slick({
+        slidesToShow: {{ slidesToShow }},
+        slidesToScroll: {{ slidesToScroll }},
+        autoplay: {{ autoplay }},
+        autoplaySpeed: {{ autoplaySpeed }},
+        dots : {{ dots }},
+        arrows : {{ arrows }},
+        {{ center_mode }}
+        responsive: [
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: {{ slidesToShow }},
+                slidesToScroll: {{ slidesToScroll }},
+                infinite: true,
+                arrows: true
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: {{ slidesToShowTablet }},
+                slidesToScroll: {{ slidesToScrollTablet }},
+                arrows: true
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: {{ slidesToShowCelphone }},
+                slidesToScroll: {{ slidesToScrollCelphone }},
+                arrows: true
+            }
+        }   
+        ]
+    });
+    </script>
+
+{% endif %}

@@ -1,0 +1,444 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-instagram" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+				<h1>{{ heading_title }}</h1>
+				<ul class="breadcrumb">
+					{% for breadcrumb in breadcrumbs %}
+						<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<div class="container-fluid">      
+			{% if error_warning %}
+				<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div>
+			{% endif %}
+
+			{% if text_success_clear %}
+				<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ text_success_clear }}   
+					<button type="button" class="close" data-dismiss="alert">×</button>
+				</div>
+			{% endif %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+				</div>
+				<div class="panel-body">
+					<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-instagram" class="form-horizontal">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab-instagram" data-toggle="tab" aria-expanded="true">{{ heading_title }}</a></li>
+							<li class=""><a href="#tab-css" data-toggle="tab" aria-expanded="true">{{ text_customize_css }}</a></li>
+							<li class=""><a href="#tab-log" data-toggle="tab" aria-expanded="true">{{ text_log }}</a></li>
+							<li class="support-me"><a href="#tab-support" data-toggle="tab" aria-expanded="false">{{ text_support_me }}</a></li>
+						</ul>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="input-module_instagram_status">{{ entry_status }}</label>
+							<div class="col-sm-10">
+								<select name="module_instagram_status" id="input-module_instagram_status" class="form-control">                  
+									{% if module_instagram_status %}
+										<option value="1" selected>{{ text_enabled }}</option>                  
+										<option value="0">{{ text_disabled }}</option>                  
+									{% else  %}
+										<option value="1">{{ text_enabled }}</option>
+										<option value="0" selected>{{ text_disabled }}</option>
+									{% endif %}
+								</select>
+							</div>
+						</div>
+
+						<div class="tab-content">
+							<div id="tab-instagram" class="tab-pane active">
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#tab-instagram-options" data-toggle="tab" aria-expanded="true">{{ text_api_options }}</a></li>
+									{# <li class=""><a href="#{TAB_ID}" data-toggle="tab" aria-expanded="true">{TAB_TEXT_LABEL}</a></li> #}
+								</ul>
+								<div class="tab-content">		
+									<div id="tab-instagram-options" class="tab-pane active">
+										<div class="form-group required">
+											<label class="col-sm-2 control-label" for="input-access_token"><span data-toggle="tooltip" title="{{ help_access_token|e }}">{{ entry_access_token }}</span></label>
+											<div class="col-sm-10"><input type="text" name="module_instagram_access_token" value="{{ module_instagram_access_token }}" placeholder="{{ entry_access_token }}" id="input-access_token" class="form-control" />{% if error_access_token %}<div class="text-danger">{{ error_access_token }}</div>{% endif %}<div><a href="http://instagram.pixelunion.net/" target="_blank">{{ entry_text_generate_token }}</a></div></div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-photo-amount">{{ entry_module_name }}</label>
+											<div class="col-sm-10">
+												<input type="text" name="module_instagram_module_name" value="{{ module_instagram_module_name }}" placeholder="{{ entry_module_name }}" id="input-module_name" class="form-control" />                
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-plugin-text-align">{{ entry_text_align }}</label>
+											<div class="col-sm-10">
+												<select name="module_instagram_text_align" id="input-plugin-text-align" class="form-control">                    
+													<option value="left"    {{ (module_instagram_text_align == 'left') ? "selected" : ""  }} >Left</option>
+													<option value="center"  {{ (module_instagram_text_align == 'center') ? "selected" : ""  }} >Center</option>
+													<option value="right"   {{ (module_instagram_text_align == 'right') ? "selected" : ""  }} >Right</option>                  
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-plugin-hover-effect">{{ entry_text_hover_heart }}</label>
+											<div class="col-sm-10">
+												<select name="module_instagram_hover_heart" id="input-plugin-hover-effect" class="form-control">
+													{% if module_instagram_hover_heart %}
+														<option value="1" selected="selected">{{ text_enabled }}</option>
+														<option value="0">{{ text_disabled }}</option>
+													{% else  %}
+														<option value="1">{{ text_enabled }}</option>
+														<option value="0" selected="selected">{{ text_disabled }}</option>
+													{% endif %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group heart-input {{ (module_instagram_hover_heart) ? '' : 'hidden' }}">
+											<label class="col-sm-2 control-label" for="heart_color">{{ entry_heart_color }}</label>
+											<div class="col-sm-10">
+												<div class="input-group">
+													<input type="text" value="{{ module_instagram_heart_color }}" placeholder="{{ module_instagram_heart_color }}"  class="form-control color-heart" disabled />
+													<input type="hidden" id="heart_color" name="module_instagram_heart_color" value="{{ module_instagram_heart_color }}" class="color-heart">												
+													<span class="input-group-addon"><span data-toggle="tooltip" title="{{ help_instagram_heart_color }}"><input type='text' id="instagram_heart_color" /> </span></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group heart-input {{ (module_instagram_hover_heart) ? '': 'hidden'}}">
+											<label class="col-sm-2 control-label" for="heart_text_color">{{ entry_heart_text_color }}</label>
+											<div class="col-sm-10">
+												<div class="input-group">
+													<input type="text" value="{{ module_instagram_text_heart_color }}" placeholder="{{ module_instagram_text_heart_color}} "  class="form-control color-text-heart" disabled />
+													<input type="hidden" id="heart_text_color" name="module_instagram_text_heart_color" value="{{ module_instagram_text_heart_color }}" class="color-text-heart">												
+													<span class="input-group-addon"><span data-toggle="tooltip" title="{{ help_instagram_text_heart_color }}"><input type='text' id="instagram_text_heart_color" /> </span></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-photo-amount">{{ entry_photo_amount }}</label>
+											<div class="col-sm-10">
+												<input type="text" name="module_instagram_photo_amount" value="{{ module_instagram_photo_amount }}" placeholder="{{ entry_photo_amount }}" id="input-photo_amount" class="form-control" />
+												{%  if error_photo_amount %}<div class="text-danger">{{ error_photo_amount }}</div>{% endif %}
+											</div>
+										</div>
+									</div>
+									{# <div id="{TAB_ID} class="tab-pane"></div> #}
+								</div>
+
+								<div class="form-group">
+									<div class="panel-heading">
+										<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_plugin_edit }}</h3>
+									</div>
+								</div>
+
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#tab-slick-options" data-toggle="tab" aria-expanded="true">{{ text_slick_options }}</a></li>
+									<li class=""><a href="#tab-grid-options" data-toggle="tab" aria-expanded="false">{{ text_grid_options }}</a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="tab-slick-options" class="tab-pane active">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-use-slick">{{ entry_use_slick }}</label>
+											<div class="col-sm-10">
+												<select name="module_instagram_use_plugin" id="input-use-slick" class="form-control">                  
+													{% if module_instagram_use_plugin %}
+														<option value="1" selected="selected">{{ text_enabled }}</option>
+														<option value="0">{{ text_disabled }}</option>
+													{% else  %}
+														<option value="1">{{ text_enabled }}</option>
+														<option value="0" selected="selected">{{ text_disabled }}</option>
+													{% endif %}
+												</select>
+											</div>
+										</div>
+										<div class="use-plugin {{ (module_instagram_use_plugin)? '' : 'hidden' }}">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-photo-show">{{ entry_photo_show }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_show" value="{{ module_instagram_plugin_slide_show }}" placeholder="{{ entry_photo_show }}" id="input-photo-show" class="form-control" />
+													{%  if error_slide_show %}<div class="text-danger">{{ error_slide_show }}</div>{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-slide-show">{{ entry_slide_scroll }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_scroll" value="{{ module_instagram_plugin_slide_scroll }}" placeholder="{{ entry_slide_scroll }}" id="input-plugin-slide-scroll" class="form-control" />
+													{%  if error_slide_scroll %} <div class="text-danger">{{ error_slide_scroll }}</div>{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-photo-show">{{ entry_photo_show_tablet }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_show_tablet" value="{{ module_instagram_plugin_slide_show_tablet }}" placeholder="{{ entry_photo_show_tablet }}" id="input-photo-show" class="form-control" />
+													{% if error_slide_show_tablet %}<div class="text-danger">{{ error_slide_show_tablet }}</div>
+													{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-slide-show">{{ entry_slide_scroll_tablet }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_scroll_tablet" value="{{ module_instagram_plugin_slide_scroll_tablet }}" placeholder="{{ entry_slide_scroll_tablet }}" id="input-plugin-slide-scroll" class="form-control" />
+													{% if error_slide_scroll_tablet %}<div class="text-danger">{{ error_slide_scroll_tablet }}</div>
+													{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-photo-show">{{ entry_photo_show_celphone }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_show_celphone" value="{{ module_instagram_plugin_slide_show_celphone }}" placeholder="{{ entry_photo_show_celphone }}" id="input-photo-show" class="form-control" />
+													{% if error_slide_show_celphone %}
+														<div class="text-danger">{{ error_slide_show_celphone }}</div>
+													{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-slide-show">{{ entry_slide_scroll_celphone }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_slide_scroll_celphone" value="{{ module_instagram_plugin_slide_scroll_celphone }}" placeholder="{{ entry_slide_scroll_celphone }}" id="input-plugin-slide-scroll" class="form-control" />
+													{% if error_slide_scroll_celphone %}
+														<div class="text-danger">{{ error_slide_scroll_celphone }}</div>
+													{% endif %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-auto-play">{{ entry_auto_play }}</label>
+												<div class="col-sm-10">
+													<select name="module_instagram_plugin_auto_play" id="input-plugin-dots" class="form-control">
+														{% if module_instagram_plugin_auto_play %}                 
+															<option value="1" selected="selected">{{ text_enabled }}</option>
+															<option value="0">{{ text_disabled }}</option>
+														{% else  %}
+															<option value="1">{{ text_enabled }}</option>
+															<option value="0" selected="selected">{{ text_disabled }}</option>                  
+														{% endif %}
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-dots">{{ entry_slide_dots }}</label>
+												<div class="col-sm-10">
+													<select name="module_instagram_plugin_dots" id="input-plugin-dots" class="form-control">                  
+														{% if module_instagram_plugin_dots %}
+															<option value="1" selected="selected">{{ text_enabled }}</option>
+															<option value="0">{{ text_disabled }}</option>
+														{% else  %}
+															<option value="1">{{ text_enabled }}</option>
+															<option value="0" selected="selected">{{ text_disabled }}</option>                  
+														{% endif %}
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-arrows">{{ entry_slide_arrows }}</label>
+												<div class="col-sm-10">
+													<select name="module_instagram_plugin_arrows" id="input-plugin-arrows" class="form-control">                  
+														{% if module_instagram_plugin_arrows %}
+															<option value="1" selected="selected">{{ text_enabled }}</option>
+															<option value="0">{{ text_disabled }}</option>
+														{% else  %}
+															<option value="1">{{ text_enabled }}</option>
+															<option value="0" selected="selected">{{ text_disabled }}</option>           
+														{% endif %}
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group color-input {{ (module_instagram_plugin_arrows) ? '' : 'hidden'  }}">
+												<label class="col-sm-2 control-label" for="arrow_color">{{ entry_arrow_color }}</label>
+												<div class="col-sm-10">
+													<div class="input-group">
+														<input type="text" value="{{ module_instagram_arrow_color }}" placeholder="{{ module_instagram_arrow_color }}"  class="form-control color" disabled />
+														<input type="hidden" name="module_instagram_arrow_color" value="{{ module_instagram_arrow_color }}" class="color">
+														{% if error_color %}                   
+															<div class="text-danger">{{ error_color }}</div>
+														{% endif %}
+														<span class="input-group-addon"><span data-toggle="tooltip" title="{{ help_instagram_arrow_color }}"><input type='text' id="instagram_color" /> </span></span>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-center-mode">{{ entry_center_mode }}</label>
+												<div class="col-sm-10">
+													<select name="module_instagram_center_mode" id="input-center-mode" class="form-control">                  
+														{% if module_instagram_center_mode %}
+															<option value="1" selected="selected">{{ text_enabled }}</option>
+															<option value="0">{{ text_disabled }}</option>
+														{% else  %}
+															<option value="1">{{ text_enabled }}</option>
+															<option value="0" selected="selected">{{ text_disabled }}</option>           
+														{% endif %}
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-plugin-auto-play-speed">{{ entry_auto_play_speed }}<span data-toggle="tooltip" title="{{ help_auto_play_speed|e }}"></span></label>
+												<div class="col-sm-10">
+													<input type="text" name="module_instagram_plugin_auto_play_speed" value="{{ module_instagram_plugin_auto_play_speed }}" placeholder="{{ entry_auto_play_speed }}" id="input-plugin-auto-play-speed" class="form-control" />
+													{% if error_auto_play_speed %}                   
+														<div class="text-danger">{{ error_auto_play_speed }}</div>
+													{% endif %}
+												</div>
+											</div>
+										</div>										
+									</div>
+
+									
+								</div>
+							</div>
+
+
+							<div id="tab-log" class="tab-pane">
+								<div class="row">
+									<div class="col-md-10">
+										<div class="panel-heading">
+											<h3 class="panel-title"><i class="fa fa-pencil"></i>{{ text_log_tab }}</h3>
+										</div>
+									</div>
+									<div class='col-md-2' style="line-height: 40.38px;">
+										<div class="container-fluid">
+											<div class="pull-right">
+												<a href="{{ download }}" data-toggle="tooltip" title="{{ button_download }}" class="btn btn-primary"><i class="fa fa-download"></i></a>
+												<a onclick="confirm('{{ text_confirm }}') ? location.href='{{ clear }}' : false;" data-toggle="tooltip" title="{{ button_clear }}" class="btn btn-danger"><i class="fa fa-eraser"></i></a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel-body">
+									<textarea wrap="off" rows="15" readonly class="form-control">{{ log_instagram }}</textarea>
+								</div>
+							</div>
+
+							<div id="tab-css" class="tab-pane">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> Customize Instagram Layout:</h3>
+								</div>
+								<div class="pull-right" style="padding: 15px; ">
+									<a href="{{ reset }}" data-toggle="tooltip" title="{{ help_instagram_reset }}" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+								</div>
+
+								<div class="panel-body">
+									<textarea id="css_editor" spellcheck="false" class="css_editor" name="module_instagram_style" cols="30" rows="10" style="min-width: 1027px; min-height: 400px;">{{ module_instagram_style }}</textarea>
+								</div>
+							</div>
+
+							<div id="tab-support" class="tab-pane">
+								<div class="card text-center">
+									<div class="card-header">
+										<h4>That's For <strong>You</strong>!</h4>
+									</div>
+									<div class="card-body">
+										<h4 class="card-title">First... Thank You!</h4>
+										<p class="card-text">I hope that it is useful to engage your store and that makes you increase your daily views, I'm working too hard to improve and do something better! I think it's the decent thing to do. So I would be very happy if you consider making a donation of any value, I would be very grateful!</p>
+										<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=9CKVACZ7M99L6&lc=BR&item_name=Hebert%20Lima&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank" class="btn btn-success"><i class="fa fa-paypal"></i> Make a Donation with PayPal</a>
+										<p></p>
+										<p>if you need support, I will be happy to help you!</p>										
+										<a href="mailto:hebert.dev@hotmail.com?subject=I need Support ({{ version }})" target="_blank" class="btn btn-info"><i class="fa fa-envelope"></i> Get Support</a>
+
+									</div>
+									<div class="card-footer text-muted">
+										New great Updates Coming Soon!
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$('#input-plugin-arrows').change(function(event) {
+			var option = $('#input-plugin-arrows').val();
+
+			if(option == '0'){
+				$('.color-input').addClass('hidden');
+			}else{
+				$('.color-input').removeClass('hidden');
+			}
+		});
+
+		$("#instagram_color").spectrum({
+			color: '{{ module_instagram_arrow_color }}',
+			preferredFormat: "rgb",
+			showInput: true,
+			change: function(color) {                   
+				$('.color').val(color.toHexString());
+			}
+		});
+
+		$('#input-use-slick').change(function(event) {
+			var option = $('#input-use-slick').val();
+
+			if(option == '0'){
+				$('.use-plugin').addClass('hidden');
+			}else{
+				$('.use-plugin').removeClass('hidden');
+			}
+		});
+
+		$('#input-use-grid').change(function(event) {
+			var option = $('#input-use-grid').val();
+
+			if(option == '0'){
+				$('.use-grid').addClass('hidden');
+			}else{
+				$('.use-grid').removeClass('hidden');
+			}
+		});
+
+		$('#input-plugin-hover-effect').change(function(event) {
+			var option = $('#input-plugin-hover-effect').val();
+
+			if(option == '0'){
+				$('.heart-input').addClass('hidden');
+			}else{
+				$('.heart-input').removeClass('hidden');
+			}
+		});
+
+		$("#instagram_heart_color").spectrum({
+			color: '{{ module_instagram_heart_color }}',
+			preferredFormat: "rgb",
+			showAlpha: true,
+			showInput: true,
+			change: function(color) {					
+				$('.color-heart').val(color.toRgbString());
+			}
+		});
+
+		$("#instagram_text_heart_color").spectrum({
+			color: '{{ module_instagram_text_heart_color }}',
+			preferredFormat: "rgb",
+			showAlpha: true,
+			showInput: true,
+			change: function(color) {					
+				$('.color-text-heart').val(color.toHexString());
+			}
+		});
+
+
+		var editor = CodeMirror.fromTextArea(document.getElementById("css_editor"), {
+			extraKeys: {"Ctrl-Space": "autocomplete"},
+			theme: "ambiance"
+		});
+
+		$('.CodeMirror').trigger('click');
+		</script>
+	</div>
+	{{ footer }}
