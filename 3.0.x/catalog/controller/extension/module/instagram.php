@@ -47,7 +47,7 @@ class ControllerExtensionModuleInstagram extends Controller {
 
 		if($returnCurl){
 			$json = $returnCurl;
-			$instagram = json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
+			$instagram = json_decode($json, true);
 			$index = 0;			
 
 			foreach ($instagram['data'] as $instagram ) {				
