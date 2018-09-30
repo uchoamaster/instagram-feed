@@ -40,8 +40,7 @@ class ControllerExtensionModuleInstagram extends Controller {
 		$cUrl = curl_init();
 
 		curl_setopt($cUrl, CURLOPT_URL, $json_link);
-
-		curl_setopt($cUrl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($cUrl, CURLOPT_RETURNTRANSFER, true);
 
 		$returnCurl = curl_exec($cUrl);
 
